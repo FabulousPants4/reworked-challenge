@@ -6,19 +6,14 @@ var data = [
 ]
 
 var Input = React.createClass({
-  getInitialState: function() {
-    return{value: ''};
-  },
-
   handleChange: function(e) {
-    this.setState({value: e.target.value});
-    this.props.onChange(this.state.value);
+    this.props.onChange(e.target.value);
   },
   render: function() {
     return(
       <input
         type="text"
-        value={this.state.value}
+        value={this.props.value}
         onChange={this.handleChange} />
       );
   }
@@ -32,18 +27,16 @@ var StudentList = React.createClass({
   render: function() {
     var listItems =this.state.data.map(function(student) {
       return(
-        <li>
+        <div>
           <Student age={student.age} name={student.name}>
           </Student>
-        </li>
+        </div>
         );
     });
     return (
       <div className="studentList">
       <h2>Students</h2>
-        <ul>
         {listItems}
-        </ul>
       </div>
     );
   }
@@ -53,7 +46,7 @@ var Student = React.createClass({
   render: function() {
     return(
       <div>
-        Student name: {this.props.name} age: {this.props.age}
+        Student Name: {this.props.name} Age: {this.props.age}
       </div>
   );
   }
@@ -68,12 +61,13 @@ var StudentForm = React.createClass({
   },
 
   addStudent: function () {
-    const temp= this.state.data;
-    const stud={};
-    stud.name= this.state.studentName;
-    stud.age= this.state.studentAge;
-    temp.push(stud);
-    this.setState(temp);
+    const temp= this.state.data
+    const stud={}
+    stud.name= this.state.studentName
+    stud.age= this.state.studentAge
+    temp.push(stud)
+    this.setState(temp)
+    this.setState({studentName: '', studentAge: ''})
 },
   
   setName: function(name){
@@ -88,9 +82,9 @@ var StudentForm = React.createClass({
     return(
     <div>
       <label>Name: </label>
-      <Input id='nameInput' onChange={this.setName} />
+      <Input id='nameInput' value={this.state.studentName} onChange={this.setName} />
       <label>Age: </label>
-      <Input id='ageInput' onChange={this.setAge} />
+      <Input id='ageInput' value={this.state.studentAge} onChange={this.setAge} />
         <div>
           <button onClick={this.addStudent}>Add</button>
         </div>
