@@ -7,11 +7,12 @@ var data = [
 
 var Input = React.createClass({
   getInitialState: function() {
-    return {value: ''}
+    return{value: ''};
   },
+
   handleChange: function(e) {
-    e.preventDefault();
     this.setState({value: e.target.value});
+    this.props.onChange(this.state.value);
   },
   render: function() {
     return(
@@ -60,25 +61,36 @@ var Student = React.createClass({
 
 var StudentForm = React.createClass({
   getInitialState: function () {
-    return {data : this.props.data};
+    return {data : this.props.data,
+            studentName: '',
+            studentAge: ''
+          };
   },
 
   addStudent: function () {
-    const temp = this.state.data;
-    const stud ={};
-    stud.name ='Austin'; {/*replace with code that gets the value of nameInput*/}
-    stud.age = 23; {/*replace with code that gets the state of ageInput*/}
+    const temp= this.state.data;
+    const stud={};
+    stud.name= this.state.studentName;
+    stud.age= this.state.studentAge;
     temp.push(stud);
     this.setState(temp);
 },
+  
+  setName: function(name){
+    this.setState({studentName: name});
+  },
+
+  setAge: function(age) {
+    this.setState({studentAge: age});
+  },
 
   render: function(){
     return(
     <div>
       <label>Name: </label>
-      <Input id='nameInput' />
+      <Input id='nameInput' onChange={this.setName} />
       <label>Age: </label>
-      <Input id='ageInput' />
+      <Input id='ageInput' onChange={this.setAge} />
         <div>
           <button onClick={this.addStudent}>Add</button>
         </div>
