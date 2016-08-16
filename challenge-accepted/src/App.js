@@ -7,9 +7,10 @@ var data = [
 
 var Input = React.createClass({
   getInitialState: function() {
-    return {value: undefined}
+    return {value: ''}
   },
   handleChange: function(e) {
+    e.preventDefault();
     this.setState({value: e.target.value});
   },
   render: function() {
@@ -23,8 +24,12 @@ var Input = React.createClass({
 });
 
 var StudentList = React.createClass({
+  getInitialState: function() {
+    return {data : this.props.data};
+  },
+
   render: function() {
-    var listItems =this.props.data.map(function(student) {
+    var listItems =this.state.data.map(function(student) {
       return(
         <li>
           <Student age={student.age} name={student.name}>
@@ -55,8 +60,17 @@ var Student = React.createClass({
 
 var StudentForm = React.createClass({
   getInitialState: function () {
-
+    return {data : this.props.data};
   },
+
+  addStudent: function () {
+    const temp = this.state.data;
+    const stud ={};
+    stud.name ='Austin'; {/*replace with code that gets the value of nameInput*/}
+    stud.age = 23; {/*replace with code that gets the state of ageInput*/}
+    temp.push(stud);
+    this.setState(temp);
+},
 
   render: function(){
     return(
@@ -68,6 +82,9 @@ var StudentForm = React.createClass({
         <div>
           <button onClick={this.addStudent}>Add</button>
         </div>
+      <div>
+        <StudentList data={data} />
+      </div>
     </div>
     );
   }
@@ -77,8 +94,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <StudentForm />
-        <StudentList data={data} />
+        <StudentForm data={data}/>
       </div>
     );
   }
