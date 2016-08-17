@@ -9,6 +9,7 @@ var Button =React.createClass({
   handleClick: function() {
     this.props.handleClick(this.props.id)
   },
+  
   render: function() {
     return(
       <button onClick={this.handleClick}>
