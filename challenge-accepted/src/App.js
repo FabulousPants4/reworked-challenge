@@ -2,8 +2,21 @@ import React, { Component } from 'react';
 import './App.css';
 
 var data = [
-  {name: 'Jimmy', age: 24}, {name:'Janice', age: 28}
+  {name: 'Jimmy', age: 24}, {name:'Janice', age: 28}, {name: 'Carrie', age: 21}, {name: 'Austin', age: 23}
 ]
+
+var Button =React.createClass({
+  handleClick: function() {
+    this.props.handleClick(this.props.id)
+  },
+  render: function() {
+    return(
+      <button onClick={this.handleClick}>
+        {this.props.text}
+      </button>
+      )
+  }
+});
 
 var Input = React.createClass({
   handleChange: function(e) {
@@ -24,15 +37,12 @@ var StudentList = React.createClass({
     return {data : this.props.data};
   },
 
+  removeStudent: function(id){
+    this.props.removeStudent(id)
+  },
+
   render: function() {
-    var listItems =this.state.data.map(function(student) {
-      return(
-        <div>
-          <Student age={student.age} name={student.name}>
-          </Student>
-        </div>
-        );
-    });
+    var listItems =this.state.data.map((student,i) => <div><Student id={i} age={student.age} name={student.name}/><Button handleClick={this.removeStudent} id={i} text='Remove' /></div>)
     return (
       <div className="studentList">
       <h2>Students</h2>
@@ -58,6 +68,11 @@ var StudentForm = React.createClass({
             studentName: '',
             studentAge: ''
           };
+  },
+
+  removeStudent: function(id) {
+    const temp=this.state.data
+    this.setState(temp.splice(id,1))
   },
 
   addStudent: function () {
@@ -89,7 +104,7 @@ var StudentForm = React.createClass({
           <button onClick={this.addStudent}>Add</button>
         </div>
       <div>
-        <StudentList data={data} />
+        <StudentList data={data} removeStudent={this.removeStudent} />
       </div>
     </div>
     );
