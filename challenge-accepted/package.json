@@ -3,12 +3,13 @@
   "version": "0.0.1",
   "private": true,
   "devDependencies": {
-    "react-scripts": "0.2.1"
+    "react-scripts": "0.2.3"
   },
   "dependencies": {
     "react": "^15.2.1",
     "react-dom": "^15.2.1"
   },
+  "proxy": "http://localhost:4000",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
