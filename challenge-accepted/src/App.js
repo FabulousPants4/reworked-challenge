@@ -4,7 +4,7 @@ import './App.css';
 var data = [
   {name: 'Jimmy', age: 24}, {name:'Janice', age: 28}, {name: 'Carrie', age: 21}, {name: 'Austin', age: 23}
 ]
-var StudentForm = React.createClass({
+var StudentForm= React.createClass({
   handleChange: function(e) {
     this.props.onchange(e.target.value);
   },
@@ -23,9 +23,9 @@ var StudentForm = React.createClass({
       <div>
         <form onSubmit={this.handleSubmit}>
           <label>Name: </label>
-          <Input id='nameInput' onChange={this.setName} />
+          <Input id='nameInput' value={this.props.name} onChange={this.setName} />
           <label>Age: </label>
-          <Input id='ageInput'  onChange={this.setAge} />
+          <Input id='ageInput' value={this.props.age} onChange={this.setAge} />
           <div>
             <input type='submit' value ='Add'/>
           </div>
@@ -62,7 +62,7 @@ var Input = React.createClass({
   }
 });
 
-var StudentList = React.createClass({
+let StudentList = React.createClass({
   getInitialState: function() {
     return {data : this.props.data};
   },
@@ -72,7 +72,7 @@ var StudentList = React.createClass({
   },
 
   render: function() {
-    var listItems =this.state.data.map((student,i) => <div><Student id={i} age={student.age} name={student.name}/><Button handleClick={this.removeStudent} id={i} text='Remove' /></div>)
+    var listItems=this.state.data.map((student,i) => <div><Student id={i} age={student.age} name={student.name}/><Button handleClick={this.removeStudent} id={i} text='Remove' /></div>)
     return (
       <div className="studentList">
       <h2>Students</h2>
@@ -125,7 +125,7 @@ var Placeholder = React.createClass({
   render: function(){
     return(
       <div>
-        <StudentForm handleAdd={this.addStudent} handleName={this.setName} handleAge={this.setage}/>
+        <StudentForm handleAdd={this.addStudent} handleName={this.setName} handleAge={this.setAge} name={this.state.studentName} age={this.state.studentAge} />
         <StudentList data={data} removeStudent={this.removeStudent} />
       </div>
     );
