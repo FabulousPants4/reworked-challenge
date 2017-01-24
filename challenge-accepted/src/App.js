@@ -4,12 +4,41 @@ import './App.css';
 var data = [
   {name: 'Jimmy', age: 24}, {name:'Janice', age: 28}, {name: 'Carrie', age: 21}, {name: 'Austin', age: 23}
 ]
+var StudentForm = React.createClass({
+  handleChange: function(e) {
+    this.props.onchange(e.target.value);
+  },
+  handleSubmit: function(e) {
+    e.preventDefault();
+    this.props.handleAdd();
+  },
+  setName: function(n) {
+    this.props.handleName(n)
+  },
+  setAge: function(a) {
+    this.props.handleAge(a)
+  },
+  render: function() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <label>Name: </label>
+          <Input id='nameInput' onChange={this.setName} />
+          <label>Age: </label>
+          <Input id='ageInput'  onChange={this.setAge} />
+          <div>
+            <input type='submit' value ='Add'/>
+          </div>
+        </form>
+      </div>
+    );
+  }
+});
 
-var Button =React.createClass({
+var Button = React.createClass({
   handleClick: function() {
     this.props.handleClick(this.props.id)
   },
-  
   render: function() {
     return(
       <button onClick={this.handleClick}>
@@ -63,14 +92,13 @@ var Student = React.createClass({
   }
   });
 
-var StudentForm = React.createClass({
+var Placeholder = React.createClass({
   getInitialState: function () {
     return {data : this.props.data,
             studentName: '',
             studentAge: ''
           };
   },
-
   removeStudent: function(id) {
     const temp=this.state.data
     this.setState(temp.splice(id,1))
@@ -96,18 +124,10 @@ var StudentForm = React.createClass({
 
   render: function(){
     return(
-    <div>
-      <label>Name: </label>
-      <Input id='nameInput' value={this.state.studentName} onChange={this.setName} />
-      <label>Age: </label>
-      <Input id='ageInput' value={this.state.studentAge} onChange={this.setAge} />
-        <div>
-          <button onClick={this.addStudent}>Add</button>
-        </div>
       <div>
+        <StudentForm handleAdd={this.addStudent} handleName={this.setName} handleAge={this.setage}/>
         <StudentList data={data} removeStudent={this.removeStudent} />
       </div>
-    </div>
     );
   }
 })
@@ -116,7 +136,7 @@ class App extends Component {
   render() {
     return (
       <div>
-        <StudentForm data={data}/>
+        <Placeholder data={data}/>
       </div>
     );
   }
